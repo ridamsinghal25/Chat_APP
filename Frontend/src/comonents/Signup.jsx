@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input } from "./index";
+import { Input, Button } from "./index";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -39,9 +39,9 @@ function Signup() {
       <header className="fixed top-0 z-10 mx-auto flex w-11/12 max-w-full items-center justify-between border-b-[1px] border-b-slate-300 bg-[#121212] p-4 text-white lg:px-10">
         <h1 className="text-xl font-extrabold md:text-3xl">Register</h1>
         <div className="flex w-max flex-shrink-0 items-center justify-end gap-6">
-          <button className="hidden w-max items-center justify-center border-[1px] border-white p-3 text-center font-bold text-white md:inline-flex">
+          <Button className="hidden w-max items-center justify-center border-[1px] border-white p-3 text-center font-bold text-white md:inline-flex">
             <Link to="/login">Login</Link>
-          </button>
+          </Button>
         </div>
       </header>
       <div className="mx-auto flex w-full items-stretch justify-between gap-10">
@@ -219,12 +219,12 @@ function Signup() {
                   </p>
                 )}
               </div>
-              <button
+              <Button
                 type="sumbit"
                 className="w-full bg-[#ae7aff] p-3 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
               >
                 Create Account
-              </button>
+              </Button>
               <p className="text-sm font-light text-white">
                 Already registered?{" "}
                 <span className="cursor-pointer font-bold hover:underline">
