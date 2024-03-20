@@ -18,6 +18,7 @@ function Login() {
     setValue,
     formState: { errors },
   } = useForm();
+  const secretKey = import.meta.env.SECRET_KEY;
 
   // login user function
   const loginUser = async (data) => {
@@ -80,7 +81,7 @@ function Login() {
   function encryptData(data) {
     const encryptedUserData = CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      "secret-key-123456789"
+      secretKey
     ).toString();
     return encryptedUserData;
   }
@@ -88,7 +89,7 @@ function Login() {
   function decryptData(encryptedUserData) {
     const decryptedUserData = CryptoJS.AES.decrypt(
       encryptedUserData,
-      "secret-key-123456789"
+      secretKey
     ).toString(CryptoJS.enc.Utf8);
     return JSON.parse(decryptedUserData);
   }
