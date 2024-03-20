@@ -20,11 +20,12 @@ class AuthService {
     }
   }
 
-  async login({ email, password }) {
+  async login({ email, username, password }) {
     try {
       return await axios.post("/api/v1/users/login", {
         email,
         password,
+        username,
       });
     } catch (error) {
       console.log("Error Occured while login user Account: ", error);

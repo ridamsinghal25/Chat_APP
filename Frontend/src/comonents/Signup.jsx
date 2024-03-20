@@ -36,7 +36,7 @@ function Signup() {
 
   return (
     <div className="min-h-screen bg-[#121212]">
-      <header className="fixed top-0 z-10 mx-auto flex w-11/12 max-w-full items-center justify-between border-b-[1px] border-b-slate-300 bg-[#121212] p-4 text-white lg:px-10">
+      <header className="fixed top-0 z-10 mx-auto flex w-full max-w-full items-center justify-between border-b-[1px] border-b-slate-300 bg-[#121212] p-4 text-white lg:px-10">
         <h1 className="text-xl font-extrabold md:text-3xl">Register</h1>
         <div className="flex w-max flex-shrink-0 items-center justify-end gap-6">
           <Button className="hidden w-max items-center justify-center border-[1px] border-white p-3 text-center font-bold text-white md:inline-flex">
@@ -55,7 +55,9 @@ function Signup() {
               Before we chat, please create your account
             </p>
           </div>
-          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+          {error && (
+            <p className="text-red-500 mt-8 w-full text-center">{error}</p>
+          )}
           <form onSubmit={handleSubmit(createAccount)} className="w-full">
             <div className="my-14 flex w-full flex-col items-start justify-start gap-4">
               {/* <div className="flex w-full items-center justify-center">
@@ -129,7 +131,7 @@ function Signup() {
                   })}
                 />
                 {errors.username?.message && (
-                  <p className="text-red-600 italic">
+                  <p className="text-red-500 italic">
                     &#9888; {errors.username?.message}
                   </p>
                 )}
@@ -151,7 +153,7 @@ function Signup() {
                   })}
                 />
                 {errors.email?.message && (
-                  <p className="text-red-600 italic">
+                  <p className="text-red-500 italic">
                     &#9888; {errors.email?.message}
                   </p>
                 )}
@@ -172,21 +174,23 @@ function Signup() {
                   })}
                 />
                 {errors.password?.message && (
-                  <p className="text-red-600 italic">
+                  <p className="text-red-500 italic">
                     &#9888; {errors.password?.message}
                   </p>
                 )}
               </div>
               <div className="mr-4 flex items-center">
-                <Input
-                  type="checkbox"
-                  id="checkbox-2"
-                  // className="absolute h-6 w-6 cursor-pointer opacity-0 [&:checked+div]:bg-green-500 [&:checked+div_svg]:block"
-                  name="checkbox-2"
-                  {...register("checkbox-2", {
-                    required: "You need to agree to terms and conditions",
-                  })}
-                />
+                <div className="w-3 inline-block">
+                  <Input
+                    type="checkbox"
+                    id="checkbox-2"
+                    // className="absolute h-6 w-6 cursor-pointer opacity-0 [&:checked+div]:bg-green-500 [&:checked+div_svg]:block"
+                    name="checkbox-2"
+                    {...register("checkbox-2", {
+                      required: "You need to agree to terms and conditions",
+                    })}
+                  />
+                </div>
                 {/* <div className="mr-2 flex h-6 w-6 flex-shrink-0 items-center justify-center border-[1px] border-white bg-transparent focus-within:border-white">
                 <svg
                   className="pointer-events-none hidden h-3 w-3 fill-current text-white"
@@ -214,7 +218,7 @@ function Signup() {
                   </label>
                 </div>
                 {errors["checkbox-2"]?.message && (
-                  <p className="text-red-600 italic">
+                  <p className="text-red-500 italic">
                     &#9888; {errors["checkbox-2"]?.message}
                   </p>
                 )}
