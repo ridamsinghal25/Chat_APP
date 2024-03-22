@@ -18,7 +18,7 @@ function Login() {
     setValue,
     formState: { errors },
   } = useForm();
-  const secretKey = import.meta.env.SECRET_KEY;
+  const secretKey = import.meta.env.VITE_SECRET_KEY;
 
   // login user function
   const loginUser = async (data) => {
@@ -29,18 +29,14 @@ function Login() {
       );
 
       let email, username;
-      let encryptEmail, encryptUsername;
 
       if (isEmail) {
         email = data.usernameOrEmail;
-        encryptEmail = encryptData(email);
       } else {
         username = data.usernameOrEmail;
-        encryptUsername = encryptData(username);
       }
 
       const { password } = data;
-      const encryptPassword = encryptData(password);
 
       const user = await authService.login({ email, username, password });
 
@@ -48,12 +44,18 @@ function Login() {
         const userData = await authService.getCurrentUser();
 
         if (rememberMe) {
-          if (encryptEmail) {
+          if (isEmail) {
+            const encryptEmail = encryptData(email);
+            const encryptPassword = encryptData(password);
+
             localStorage.setItem(
               "userCredentials",
               JSON.stringify({ email: encryptEmail, password: encryptPassword })
             );
           } else {
+            const encryptUsername = encryptData(username);
+            const encryptPassword = encryptData(password);
+
             localStorage.setItem(
               "userCredentials",
               JSON.stringify({
@@ -73,6 +75,7 @@ function Login() {
       }
     } catch (error) {
       setError(error.message);
+      console.log(error);
     }
   };
 
@@ -109,8 +112,10 @@ function Login() {
 
       const decryptUsername = decryptData(encryptUsername);
       const decryptPassword = decryptData(encryptPassword);
+
       setValue("usernameOrEmail", decryptUsername);
       setValue("password", decryptPassword);
+
       setRememberMe(true);
     } else if (savedCredentials?.email) {
       const { email: encryptEmail, password: encryptPassword } =
@@ -118,8 +123,10 @@ function Login() {
 
       const decryptEmail = decryptData(encryptEmail);
       const decryptPassword = decryptData(encryptPassword);
+
       setValue("usernameOrEmail", decryptEmail);
       setValue("password", decryptPassword);
+
       setRememberMe(true);
     }
   }, []);
