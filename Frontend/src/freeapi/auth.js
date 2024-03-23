@@ -22,11 +22,17 @@ class AuthService {
 
   async login({ email, username, password }) {
     try {
-      return await axios.post("/api/v1/users/login", {
-        email,
-        password,
-        username,
-      });
+      return await axios.post(
+        "/api/v1/users/login",
+        {
+          email,
+          password,
+          username,
+        },
+        {
+          withCredentials: true,
+        }
+      );
     } catch (error) {
       console.log("Error Occured while login user Account: ", error);
       throw new Error(
@@ -48,7 +54,9 @@ class AuthService {
 
   async getCurrentUser() {
     try {
-      return await axios.get("/api/v1/users/current-user");
+      return await axios.get("/api/v1/users/current-user", {
+        withCredentials: true,
+      });
     } catch (error) {
       console.log("Error Occured getting user data: ", error);
       throw new Error(

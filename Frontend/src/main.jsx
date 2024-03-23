@@ -7,6 +7,7 @@ import store from "./store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignupPage from "./pages/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import Home from "./pages/Home.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (
-          <div>
-            <h1>Home Page</h1>
-            <h1>I am on Home page</h1>
-          </div>
-        ),
+        element: <Home />,
       },
       {
         path: "/signup",
@@ -29,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/empty-chats/:id",
+        element: <h1>Empty Chats</h1>,
       },
     ],
   },

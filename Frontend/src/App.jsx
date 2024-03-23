@@ -10,10 +10,10 @@ function App() {
   // });
   return (
     <>
-      {/* <h1>{res.data.message}</h1> */}
       <div>
         <Outlet />
       </div>
+      {/* <Chats /> */}
     </>
   );
 }
