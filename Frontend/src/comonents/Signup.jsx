@@ -22,6 +22,11 @@ function Signup() {
       const userData = await authService.createAccount(data);
 
       if (userData) {
+        // const { accessToken } = userData.data.data;
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `Bearer ${accessToken}`;
+
         const currentUser = await authService.getCurrentUser();
 
         if (currentUser) {

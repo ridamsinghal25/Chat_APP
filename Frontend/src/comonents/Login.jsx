@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import authService from "../freeapi/auth";
 import { login } from "../slices/authSlice";
 import CryptoJS from "crypto-js";
+import axios from "axios";
 
 function Login() {
   const [error, setError] = useState("");
@@ -41,6 +42,12 @@ function Login() {
       const user = await authService.login({ email, username, password });
 
       if (user) {
+        const { accessToken } = user.data.data;
+        console.log(accessToken);
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `Bearer ${accessToken}`;
+
         const userData = await authService.getCurrentUser();
 
         if (rememberMe) {
