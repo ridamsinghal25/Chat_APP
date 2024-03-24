@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import authService from "../freeapi/auth";
 import { login } from "../slices/authSlice";
 import CryptoJS from "crypto-js";
-import axios from "axios";
 
 function Login() {
   const [error, setError] = useState("");
@@ -42,8 +41,8 @@ function Login() {
       const user = await authService.login({ email, username, password });
 
       if (user) {
-        const { accessToken } = user.data.data;
-        console.log(accessToken);
+        // const { accessToken } = user.data.data;
+        // console.log(accessToken);
         // axios.defaults.headers.common[
         //   "Authorization"
         // ] = `Bearer ${accessToken}`;
@@ -155,7 +154,9 @@ function Login() {
         <div className="fixed left-0 top-0 hidden h-screen w-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 md:block md:w-1/3"></div>
         <div className="ml-auto mt-28 flex w-full flex-col items-start justify-start p-6 sm:max-w-4xl md:w-2/3 lg:px-10">
           <div className="w-full text-center">
-            <h1 className="mb-3 text-5xl font-extrabold text-white">Login</h1>
+            <h1 className="mb-3 text-5xl font-extrabold text-white">
+              Login To Chat
+            </h1>
             <p className="text-xs text-slate-400">
               Login to access your account
             </p>
