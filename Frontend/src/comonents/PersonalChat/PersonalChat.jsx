@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 function PersonalChat() {
   const [error, setError] = useState("");
   const [availableUsers, setAvailableUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const {
@@ -30,6 +31,7 @@ function PersonalChat() {
       .then((response) => {
         const { data } = response;
         setAvailableUsers(data.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         setError(error.message);
@@ -130,15 +132,19 @@ function PersonalChat() {
                       Select a user
                     </label>
                     <div className="w-full border-[1px] border-white pr-4">
-                      <Select
-                        placeholder="Select a user..."
-                        autoComplete="false"
-                        className="w-full bg-[#121212] py-4 pl-4 text-white placeholder:text-gray-500 focus:outline-none"
-                        options={availableUsers}
-                        {...register("user", {
-                          required: "Please Select a user",
-                        })}
-                      />
+                      {!isLoading && availableUsers.length > 0 ? (
+                        <Select
+                          placeholder="Select a user..."
+                          autoComplete="false"
+                          className="w-full bg-[#121212] py-4 pl-4 text-white placeholder:text-gray-500 focus:outline-none"
+                          options={availableUsers}
+                          {...register("user", {
+                            required: "Please Select a user",
+                          })}
+                        />
+                      ) : (
+                        <p>{isLoading ? "Loading..." : "No user available"}</p>
+                      )}
                       {errors.user?.message && (
                         <p className="text-red-500 italic">
                           &#9888; {errors.user?.message}

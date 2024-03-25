@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import authService from "../freeapi/auth";
 import { login } from "../slices/authSlice";
-import { encryptData, decryptData } from "../utils";
+import { encryptData, decryptData } from "../utils/encryptAndDecrypt";
 
 function Login() {
   const [error, setError] = useState("");
