@@ -4,5 +4,16 @@ import Button from "./Button";
 import Login from "./Login";
 import CreateChat from "./CreateChat/CreateChat";
 import Chats from "./Chats/Chats";
+import PersonalChat from "./PersonalChat/PersonalChat";
+import Select from "./Select";
 
-export { Signup, Input, Button, Login, CreateChat, Chats };
+export {
+  Signup,
+  Input,
+  Button,
+  Login,
+  CreateChat,
+  Chats,
+  PersonalChat,
+  Select,
+};

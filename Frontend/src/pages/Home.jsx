@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { CreateChat } from "../comonents";
+import { CreateChat, Login } from "../comonents";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
   const [chats, setChats] = useState([]);
-  const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    chatService.getUserChatList().then((chats) => {
-      if (chats) {
-        setChats(chats.data.data);
-      }
-    });
+    chatService
+      .getUserChatList()
+      .then((chats) => {
+        if (chats) {
+          setChats(chats.data.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   if (!authStatus) {
-    navigate("/login");
+    return (
+      <div>
+        <Login />
+      </div>
+    );
   }
 
   if (authStatus && chats.length === 0) {
@@ -29,7 +36,7 @@ function Home() {
     );
   }
 
-  return <div>Please wait I am working on it</div>;
+  return <div>Hello World</div>;
 }
 
 export default Home;

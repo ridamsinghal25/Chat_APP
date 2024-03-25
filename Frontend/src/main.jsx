@@ -10,6 +10,7 @@ import { persistStore } from "redux-persist";
 import SignupPage from "./pages/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import Home from "./pages/Home.jsx";
+import { PersonalChat } from "./comonents/index.js";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/personal-chat",
+        element: <PersonalChat />,
       },
       {
         path: "/empty-chats/:id",

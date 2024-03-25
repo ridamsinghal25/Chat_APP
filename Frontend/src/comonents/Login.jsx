@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import authService from "../freeapi/auth";
 import { login } from "../slices/authSlice";
-import CryptoJS from "crypto-js";
+import { encryptData, decryptData } from "../utils";
 
 function Login() {
   const [error, setError] = useState("");
@@ -18,7 +18,6 @@ function Login() {
     setValue,
     formState: { errors },
   } = useForm();
-  const secretKey = import.meta.env.VITE_SECRET_KEY;
 
   // login user function
   const loginUser = async (data) => {
@@ -75,7 +74,7 @@ function Login() {
         }
 
         if (userData) {
-          dispatch(login(userData));
+          dispatch(login(userData.data.data));
         }
         navigate("/");
       }
@@ -84,24 +83,6 @@ function Login() {
       console.log(error);
     }
   };
-
-  // encryption and decryption of user data to store in localStorage
-
-  function encryptData(data) {
-    const encryptedUserData = CryptoJS.AES.encrypt(
-      JSON.stringify(data),
-      secretKey
-    ).toString();
-    return encryptedUserData;
-  }
-
-  function decryptData(encryptedUserData) {
-    const decryptedUserData = CryptoJS.AES.decrypt(
-      encryptedUserData,
-      secretKey
-    ).toString(CryptoJS.enc.Utf8);
-    return JSON.parse(decryptedUserData);
-  }
 
   function handleCheckboxChange(event) {
     setRememberMe(event.target.checked);

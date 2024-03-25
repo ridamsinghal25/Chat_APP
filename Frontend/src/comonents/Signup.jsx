@@ -30,7 +30,7 @@ function Signup() {
         const currentUser = await authService.getCurrentUser();
 
         if (currentUser) {
-          dispatch(login(currentUser));
+          dispatch(login(currentUser.data.data));
         }
         navigate("/");
       }
