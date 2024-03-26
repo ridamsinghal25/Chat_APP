@@ -8,16 +8,18 @@ function Home() {
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    chatService
-      .getUserChatList()
-      .then((chats) => {
-        if (chats) {
-          setChats(chats.data.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+    if (authStatus) {
+      chatService
+        .getUserChatList()
+        .then((chats) => {
+          if (chats) {
+            setChats(chats.data.data);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
   }, []);
 
   if (!authStatus) {

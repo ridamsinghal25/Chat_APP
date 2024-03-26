@@ -2,8 +2,9 @@ import axios from "axios";
 import handleHttpError from "../utils/ErrorHandling";
 
 class ChatService {
-  async createOneOnOne() {
+  async createOneOnOneChat({ receiverId }) {
     try {
+      return await axios.post(`api/v1/chat-app/chats/c/${receiverId}`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         handleHttpError(error);

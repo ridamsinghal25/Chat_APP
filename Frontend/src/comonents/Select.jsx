@@ -1,20 +1,25 @@
 import React, { useId } from "react";
 
-function Select({ label, options, className, ...props }, ref) {
+function Select(
+  { label, defaultValue, content, options, className, ...props },
+  ref
+) {
   const id = useId();
   return (
     <div>
       {label && <label htmlFor={id}>{label}</label>}
       <select
-        defaultValue=""
+        defaultValue={defaultValue}
         id={id}
         ref={ref}
         {...props}
         className={`${className}`}
       >
-        <option value="" disabled hidden>
-          Please select a user
-        </option>
+        {content && (
+          <option value="" disabled hidden>
+            {content}
+          </option>
+        )}
         {options?.map((option) => (
           <option key={option._id} value={option._id}>
             {option.username}

@@ -17,10 +17,14 @@ function PersonalChat() {
   } = useForm();
 
   const startChattingWithUser = async (data) => {
+    setError("");
     try {
-      console.log(data);
+      const personalChat = await chatService.createOneOnOneChat(data);
+
+      if (personalChat) {
+        navigate("/chat-message");
+      }
     } catch (error) {
-      console.log("Error while retriving users", error);
       setError(error.message);
     }
   };
@@ -138,16 +142,18 @@ function PersonalChat() {
                           autoComplete="false"
                           className="w-full bg-[#121212] py-4 pl-4 text-white placeholder:text-gray-500 focus:outline-none"
                           options={availableUsers}
-                          {...register("user", {
+                          defaultValue=""
+                          content="Please Select a user"
+                          {...register("receiverId", {
                             required: "Please Select a user",
                           })}
                         />
                       ) : (
                         <p>{isLoading ? "Loading..." : "No user available"}</p>
                       )}
-                      {errors.user?.message && (
+                      {errors.receiverId?.message && (
                         <p className="text-red-500 italic">
-                          &#9888; {errors.user?.message}
+                          &#9888; {errors.receiverId?.message}
                         </p>
                       )}
                     </div>
