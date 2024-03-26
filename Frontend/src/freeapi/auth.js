@@ -1,4 +1,5 @@
 import axios from "axios";
+import handleHttpError from "../utils/ErrorHandling";
 
 class AuthService {
   async createAccount({ email, password, username }) {
@@ -13,10 +14,11 @@ class AuthService {
         return this.login({ email, password });
       }
     } catch (error) {
-      console.log("Error Occured while creating user Account: ", error);
-      throw new Error(
-        error.response.data?.message || error.response?.statusText
-      );
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 
@@ -34,10 +36,11 @@ class AuthService {
         }
       );
     } catch (error) {
-      console.log("Error Occured while login user Account: ", error);
-      throw new Error(
-        error.response.data?.message || error.response?.statusText
-      );
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 
@@ -45,10 +48,11 @@ class AuthService {
     try {
       return await axios.post("/api/v1/users/logout");
     } catch (error) {
-      console.log("Error Occured while logout user Account: ", error);
-      throw new Error(
-        error.response.data?.message || error.response?.statusText
-      );
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 
@@ -58,10 +62,11 @@ class AuthService {
         withCredentials: true,
       });
     } catch (error) {
-      console.log("Error Occured getting user data: ", error);
-      throw new Error(
-        error.response.data?.message || error.response?.statusText
-      );
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
     }
     // return null;
   }
@@ -72,10 +77,11 @@ class AuthService {
     try {
       return await axios.patch("/api/v1/users/avatar", { file });
     } catch (error) {
-      console.log("Error Occured updating user avatar: ", error);
-      throw new Error(
-        error.response.data?.message || error.response?.statusText
-      );
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 }

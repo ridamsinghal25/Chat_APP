@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage/session";
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import { createTransform } from "redux-persist";
-import { encryptData, decryptData } from "./utils";
+import { encryptData, decryptData } from "./utils/encryptAndDecrypt";
 
 // might create a problem of serializable check
 
