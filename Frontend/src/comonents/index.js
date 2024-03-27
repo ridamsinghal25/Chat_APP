@@ -6,6 +6,7 @@ import CreateChat from "./CreateChat/CreateChat";
 import Chats from "./Chats/Chats";
 import PersonalChat from "./PersonalChat/PersonalChat";
 import Select from "./Select";
+import ChatMessage from "./ChatMessage/ChatMessage";
 
 export {
   Signup,
@@ -16,4 +17,5 @@ export {
   Chats,
   PersonalChat,
   Select,
+  ChatMessage,
 };
