@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Button } from "../index";
-import io from "socket.io-client";
+import { useForm } from "react-hook-form";
+import { useParams, useLocation } from "react-router-dom";
 
 function ChatMessage() {
+  const [message, setMessage] = useState("");
+  const [chat, setChat] = useState([]);
+  const { chatId } = useParams();
+  const location = useLocation();
+  const { register, handleSubmit, reset } = useForm();
+  const anotherUser = location.state?.anotherUser;
+
+  console.log(anotherUser);
+
+  const onSubmit = async (data) => {
+    try {
+      reset({
+        message: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-[#121212] h-full">
       <header className="fixed top-0 z-10 mx-auto flex w-full max-w-full items-center justify-between border-b-[1px] border-b-slate-300 bg-[#121212] p-4 text-white lg:px-10">
@@ -76,10 +96,10 @@ function ChatMessage() {
               </Button>
               <img
                 className="flex aspect-square h-10 w-10 flex-shrink-0 rounded-full object-cover"
-                src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={anotherUser.avatar.url}
                 alt="avatar"
               />
-              <p className="font-semibold text-white">Jane smith</p>
+              <p className="font-semibold text-white">{anotherUser.username}</p>
             </div>
             <div className="flex items-center justify-end gap-4">
               <Button className="hidden h-10 w-10 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:inline-flex">
@@ -120,66 +140,15 @@ function ChatMessage() {
           </div>
           <div className="relative h-[calc(100vh-150px)] w-full p-0 md:h-[calc(100vh-158px)] md:p-4">
             <div className="flex h-[calc(100%-53px)] w-full flex-col-reverse gap-8 overflow-y-auto px-2 py-4 md:h-[calc(100%-90px)] md:p-0">
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%]">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full max-w-[70%] flex-col gap-2">
-                  <p className="text-xs">Jane Smith</p>
-                  <div className="relative w-fit bg-[#343434] p-3 text-sm after:absolute after:left-0 after:top-0 after:border-r-[15px] after:border-t-[15px] after:border-r-transparent after:border-t-[#121212]">
-                    <div className="flex w-full items-center justify-center gap-1.5 px-3 py-1">
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-gray-300"></span>
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-gray-300"></span>
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-gray-300"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">5 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    I&#x27;m good too, just catching up on some reading and
-                    enjoying the weather outside.
-                  </div>
-                  <div className="grid w-full grid-cols-2 items-start justify-start gap-1 md:max-w-[90%] md:gap-2 ml-auto">
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18094275/pexels-photo-18094275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                  </div>
-                </div>
-              </div>
               <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
                 <img
                   className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  src={anotherUser.avatar.url}
                   alt="avatar"
                 />
                 <div className="flex w-full flex-col gap-1 md:gap-2">
                   <p className="text-[10px] md:text-xs">
-                    Jane Smith
+                    {anotherUser.username}
                     <span className="ml-2 text-gray-400">10 minutes ago</span>
                   </p>
                   <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
@@ -187,248 +156,22 @@ function ChatMessage() {
                   </div>
                 </div>
               </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">15 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    I&#x27;m reading &#x27;The Great Gatsby&#x27; by F. Scott
-                    Fitzgerald. It&#x27;s a classNameic!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">20 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    Oh, I&#x27;ve heard great things about that book. Enjoy your
-                    reading!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">25 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    Thanks! It&#x27;s such a beautifully written novel.
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">45 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    I can&#x27;t wait to see what happens next in the series.
-                    It&#x27;s been so captivating!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">50 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    I completely understand. It&#x27;s always exciting when a
-                    series keeps you hooked.
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">55 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    Absolutely! Well, I should get back to work now. Catch up
-                    with you later!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">18 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    Sounds like a plan! Let&#x27;s do it!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">19 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    Count me in too!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">20 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    Great! I&#x27;ll make a reservation then.
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">21 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    Awesome! Looking forward to it.
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] ml-auto flex-row-reverse">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2 items-end justify-end">
-                  <p className="text-[10px] md:text-xs">
-                    Dan Abramov
-                    <span className="ml-2 text-gray-400">22 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#ae7aff] after:right-0 after:border-l-[15px] after:border-l-transparent">
-                    Catch up with you later!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">23 hours ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    Sure thing! Take care!
-                  </div>
-                </div>
-              </div>
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="avatar"
-                />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
-                  <p className="text-[10px] md:text-xs">
-                    Jane Smith
-                    <span className="ml-2 text-gray-400">6 days ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    That&#x27;s the spirit! Keep up the good work.
-                  </div>
-                  <div className="grid w-full grid-cols-2 items-start justify-start gap-1 md:max-w-[90%] md:gap-2">
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18094275/pexels-photo-18094275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                    <img
-                      className="flex aspect-video w-full flex-shrink-0 object-cover"
-                      src="https://images.pexels.com/photos/18107024/pexels-photo-18107024/free-photo-of-an-old-city-view.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      alt="avatar"
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
-            <div className="sticky top-full flex w-full items-center justify-start gap-1 border-t-[1px] border-white px-4 py-2 md:gap-4 md:border-[1px] md:shadow-[5px_5px_0px_0px_#4f4e4e]">
-              <img
-                className="hidden aspect-square h-5 w-5 flex-shrink-0 rounded-full object-cover md:flex md:h-10 md:w-10"
-                src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                alt="avatar"
-              />
-              <Input
-                placeholder="Message..."
-                className="w-full bg-transparent p-2 text-sm text-white !outline-none placeholder:text-gray-500 md:p-4 md:text-base"
-              />
-              <Button className="hidden h-5 w-5 flex-shrink-0 items-center justify-center p-1 md:flex md:h-10 md:w-10">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="sticky top-full flex w-full items-center justify-start gap-1 border-t-[1px] border-white px-4 py-2 md:gap-4 md:border-[1px] md:shadow-[5px_5px_0px_0px_#4f4e4e]">
+                <img
+                  className="hidden aspect-square h-5 w-5 flex-shrink-0 rounded-full object-cover md:flex md:h-10 md:w-10"
+                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  alt="avatar"
+                />
+                <Input
+                  placeholder="Message..."
+                  className="w-full bg-transparent p-2 text-sm text-white !outline-none placeholder:text-gray-500 md:p-4 md:text-base"
+                  {...register("message", {
+                    required: true,
+                  })}
+                />
+                {/* <Button className="hidden h-5 w-5 flex-shrink-0 items-center justify-center p-1 md:flex md:h-10 md:w-10">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -461,19 +204,23 @@ function ChatMessage() {
                     d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"
                   ></path>
                 </svg>
-              </Button>
-              <Button className="flex h-7 w-7 flex-shrink-0 items-center justify-center  bg-[#ae7aff] p-1 md:h-10 md:w-10">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="h-6 w-6 text-black"
+              </Button> */}
+                <Button
+                  type="submit"
+                  className="flex h-7 w-7 flex-shrink-0 items-center justify-center  bg-[#ae7aff] p-1 md:h-10 md:w-10"
                 >
-                  <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z"></path>
-                </svg>
-              </Button>
-            </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="h-6 w-6 text-black"
+                  >
+                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z"></path>
+                  </svg>
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

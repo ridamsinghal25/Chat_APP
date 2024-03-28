@@ -14,6 +14,20 @@ class ChatService {
     }
   }
 
+  async sendMessage({ chatId, content }) {
+    try {
+      return await axios.post(`/api/v1/chat-app/messages/${chatId}`, {
+        content,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
+    }
+  }
+
   async getAvailableUsers() {
     try {
       return axios.get("api/v1/chat-app/chats/users");
