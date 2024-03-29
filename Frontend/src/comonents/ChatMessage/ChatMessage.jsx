@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button } from "../index";
 import { useForm } from "react-hook-form";
 import { useParams, useLocation } from "react-router-dom";
+import chatService from "../../freeapi/chat";
+import { useSelector } from "react-redux";
 
 function ChatMessage() {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const { chatId } = useParams();
   const location = useLocation();
+  const user = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, reset } = useForm();
   const anotherUser = location.state?.anotherUser;
-
-  console.log(anotherUser);
+  const isCurrentUser = false;
 
   const onSubmit = async (data) => {
     try {
+      const content = data.message;
+      // console.log(user);
+      const newMessage = await chatService.sendMessage({ chatId, content });
+
+      // const isCurrentUser = newMessage.data?.data?.sender._id;
+
       reset({
         message: "",
       });
@@ -22,6 +30,12 @@ function ChatMessage() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    chatService.getMessage({ chatId }).then((chats) => {
+      console.log(chats.data.data);
+    });
+  }, []);
 
   return (
     <div className="bg-[#121212] h-full">
@@ -140,15 +154,23 @@ function ChatMessage() {
           </div>
           <div className="relative h-[calc(100vh-150px)] w-full p-0 md:h-[calc(100vh-158px)] md:p-4">
             <div className="flex h-[calc(100%-53px)] w-full flex-col-reverse gap-8 overflow-y-auto px-2 py-4 md:h-[calc(100%-90px)] md:p-0">
-              <div className="flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0">
+              <div
+                className={`flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0  ${
+                  isCurrentUser ? "ml-auto flex-row-reverse" : "mr-0"
+                }`}
+              >
                 <img
                   className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src={anotherUser.avatar.url}
+                  src={isCurrentUser ? user.avatar.url : anotherUser.avatar.url}
                   alt="avatar"
                 />
-                <div className="flex w-full flex-col gap-1 md:gap-2">
+                <div
+                  className={`flex w-full flex-col gap-1 md:gap-2 ${
+                    isCurrentUser ? "items-end justify-end" : ""
+                  }`}
+                >
                   <p className="text-[10px] md:text-xs">
-                    {anotherUser.username}
+                    {isCurrentUser ? "You" : anotherUser.username}
                     <span className="ml-2 text-gray-400">10 minutes ago</span>
                   </p>
                   <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">

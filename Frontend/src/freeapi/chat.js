@@ -28,6 +28,18 @@ class ChatService {
     }
   }
 
+  async getMessage({ chatId }) {
+    try {
+      return await axios.get(`/api/v1/chat-app/messages/${chatId}`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleHttpError(error);
+      } else {
+        throw new Error(error.message);
+      }
+    }
+  }
+
   async getAvailableUsers() {
     try {
       return axios.get("api/v1/chat-app/chats/users");
