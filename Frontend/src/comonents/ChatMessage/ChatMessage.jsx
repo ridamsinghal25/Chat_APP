@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Button } from "../index";
 import { useForm } from "react-hook-form";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import chatService from "../../freeapi/chat";
 import { useSelector } from "react-redux";
 
@@ -10,6 +10,7 @@ function ChatMessage() {
   const [chats, setChats] = useState([]);
   const { chatId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, reset } = useForm();
   const anotherUser = location.state?.anotherUser;
@@ -93,7 +94,10 @@ function ChatMessage() {
         <div className="h-full w-full md:w-[70%]">
           <div className="flex w-full items-center justify-between gap-2 border-b-[1px] border-white p-4">
             <div className="flex w-full items-center justify-start gap-3">
-              <Button className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:hidden md:h-10 md:w-10">
+              <Button
+                className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:hidden md:h-10 md:w-10"
+                onClick={() => navigate(-1)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -106,7 +110,7 @@ function ChatMessage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+                    d="M13.25 18.75L8.75 12l4.5-6.75"
                   ></path>
                 </svg>
               </Button>
