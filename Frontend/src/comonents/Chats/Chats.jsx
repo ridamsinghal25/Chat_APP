@@ -58,7 +58,7 @@ function Chats() {
           aria-label="mobile-chatlist-toggler"
           aria-details="Remove when using in your project. Following Button is only to toggle chatlist sidebar"
         ></Button>
-        <div className="fixed right-full top-[77px] z-10 h-full w-full border-white bg-[#121212] transition-all duration-300 ease-in-out peer-focus:right-0 md:static md:block md:w-[30%] md:border-r-[1px]">
+        <div className="flex flex-col justify-center items-center top-[77px] z-10 h-full w-full border-white bg-[#121212] transition-all duration-300 ease-in-out peer-focus:right-0 md:static md:block md:w-[30%] md:border-r-[1px]">
           <div className="flex w-full items-center justify-start gap-2 border-b-[1px] border-white p-4">
             <Input
               placeholder="Search chat..."
@@ -349,7 +349,8 @@ function Chats() {
             </li>
           </ul>
         </div>
-        <div className="h-full w-full md:w-[70%]">
+        <div className="md:w-[70%]"></div>
+        {/* <div className="h-full w-full md:w-[70%]">
           <div className="flex w-full items-center justify-between gap-2 border-b-[1px] border-white p-4">
             <div className="flex w-full items-center justify-start gap-3">
               <Button className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:hidden md:h-10 md:w-10">
@@ -770,7 +771,7 @@ function Chats() {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

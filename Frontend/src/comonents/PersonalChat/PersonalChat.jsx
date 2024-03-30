@@ -39,10 +39,12 @@ function PersonalChat() {
       .then((response) => {
         const { data } = response;
         setAvailableUsers(data.data);
-        setIsLoading(false);
       })
       .catch((error) => {
         setError(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 

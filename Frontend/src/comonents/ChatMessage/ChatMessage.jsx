@@ -6,26 +6,26 @@ import chatService from "../../freeapi/chat";
 import { useSelector } from "react-redux";
 
 function ChatMessage() {
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
+  const [currentUser, setCurrentUser] = useState("");
+  const [chats, setChats] = useState([]);
   const { chatId } = useParams();
   const location = useLocation();
   const user = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, reset } = useForm();
   const anotherUser = location.state?.anotherUser;
-  const isCurrentUser = false;
 
   const onSubmit = async (data) => {
     try {
       const content = data.message;
-      // console.log(user);
       const newMessage = await chatService.sendMessage({ chatId, content });
 
-      // const isCurrentUser = newMessage.data?.data?.sender._id;
+      if (newMessage) {
+        setChats((chats) => [...chats, newMessage.data.data]);
 
-      reset({
-        message: "",
-      });
+        reset({
+          message: "",
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,8 +33,10 @@ function ChatMessage() {
 
   useEffect(() => {
     chatService.getMessage({ chatId }).then((chats) => {
-      console.log(chats.data.data);
+      setChats(chats.data.data);
     });
+
+    setCurrentUser(user._id);
   }, []);
 
   return (
@@ -150,40 +152,75 @@ function ChatMessage() {
                   ></path>
                 </svg>
               </Button>
+              <Button className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:h-10 md:w-10">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-trash-fill"
+                  viewBox="0 0 16 16"
+                >
+                  {" "}
+                  <path
+                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                    fill="white"
+                  ></path>{" "}
+                </svg>
+              </Button>
             </div>
           </div>
           <div className="relative h-[calc(100vh-150px)] w-full p-0 md:h-[calc(100vh-158px)] md:p-4">
-            <div className="flex h-[calc(100%-53px)] w-full flex-col-reverse gap-8 overflow-y-auto px-2 py-4 md:h-[calc(100%-90px)] md:p-0">
-              <div
-                className={`flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0  ${
-                  isCurrentUser ? "ml-auto flex-row-reverse" : "mr-0"
-                }`}
-              >
-                <img
-                  className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
-                  src={isCurrentUser ? user.avatar.url : anotherUser.avatar.url}
-                  alt="avatar"
-                />
+            <div className="flex flex-col-reverse h-[calc(100%-53px)] w-full gap-8 overflow-y-auto px-2 py-4 md:h-[calc(100%-90px)] md:p-0">
+              {chats.map((chat) => (
                 <div
-                  className={`flex w-full flex-col gap-1 md:gap-2 ${
-                    isCurrentUser ? "items-end justify-end" : ""
+                  key={chat._id}
+                  className={`flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0  ${
+                    chat.sender._id === currentUser
+                      ? "ml-auto flex-row-reverse"
+                      : "mr-0"
                   }`}
                 >
-                  <p className="text-[10px] md:text-xs">
-                    {isCurrentUser ? "You" : anotherUser.username}
-                    <span className="ml-2 text-gray-400">10 minutes ago</span>
-                  </p>
-                  <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
-                    That sounds lovely! What book are you currently reading?
+                  <img
+                    className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
+                    src={
+                      chat.sender._id === currentUser
+                        ? user.avatar.url
+                        : anotherUser.avatar.url
+                    }
+                    alt="avatar"
+                  />
+                  <div
+                    className={`flex w-full flex-col gap-1 md:gap-2 ${
+                      chat.sender._id === currentUser
+                        ? "items-end justify-end"
+                        : ""
+                    }`}
+                  >
+                    <p className="text-[10px] md:text-xs">
+                      {chat.sender._id === currentUser
+                        ? "You"
+                        : anotherUser.username}
+                      <span className="ml-2 text-gray-400">
+                        {new Date(chat.createdAt).toLocaleTimeString([], {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: true,
+                        })}
+                      </span>
+                    </p>
+                    <div className="relative w-fit p-2 text-xs after:absolute after:top-0 after:border-t-[15px] after:border-t-[#121212] md:p-3 md:text-sm bg-[#343434] after:left-0 after:border-r-[15px] after:border-r-transparent">
+                      {chat.content}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="sticky top-full flex w-full items-center justify-start gap-1 border-t-[1px] border-white px-4 py-2 md:gap-4 md:border-[1px] md:shadow-[5px_5px_0px_0px_#4f4e4e]">
                 <img
                   className="hidden aspect-square h-5 w-5 flex-shrink-0 rounded-full object-cover md:flex md:h-10 md:w-10"
-                  src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  src={user.avatar.url}
                   alt="avatar"
                 />
                 <Input

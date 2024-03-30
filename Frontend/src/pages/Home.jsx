@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CreateChat, Login } from "../comonents";
+import { Chats, CreateChat, Login } from "../comonents";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
 
@@ -38,7 +38,11 @@ function Home() {
     );
   }
 
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <Chats />
+    </div>
+  );
 }
 
 export default Home;

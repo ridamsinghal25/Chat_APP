@@ -7,6 +7,7 @@ import Chats from "./Chats/Chats";
 import PersonalChat from "./PersonalChat/PersonalChat";
 import Select from "./Select";
 import ChatMessage from "./ChatMessage/ChatMessage";
+import Loader from "./Loader";
 
 export {
   Signup,
@@ -18,4 +19,5 @@ export {
   PersonalChat,
   Select,
   ChatMessage,
+  Loader,
 };
