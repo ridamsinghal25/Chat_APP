@@ -1,19 +1,13 @@
-import axios from "axios";
-// import "./App.css";
+import { Header } from "./comonents";
 import { Outlet } from "react-router-dom";
 
 function App() {
-  // const url = "/api/v1/public/randomusers";
-  // const res = axios.get(url);
-  // res.then((res) => {
-  //   console.log(res.data.message);
-  // });
   return (
     <>
+      <Header />
       <div>
         <Outlet />
       </div>
-      {/* <Chats /> */}
     </>
   );
 }
