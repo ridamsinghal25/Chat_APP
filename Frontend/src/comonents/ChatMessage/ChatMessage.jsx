@@ -62,7 +62,7 @@ function ChatMessage() {
           <div className="flex w-full items-center justify-between gap-2 border-b-[1px] border-white p-4">
             <div className="flex w-full items-center justify-start gap-3">
               <Button
-                className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:hidden md:h-10 md:w-10"
+                className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1  md:h-10 md:w-10"
                 onClick={() => navigate(-1)}
               >
                 <svg
@@ -194,7 +194,7 @@ function ChatMessage() {
               <div className="sticky top-full flex w-full items-center justify-start gap-1 border-t-[1px] border-white px-4 py-2 md:gap-4 md:border-[1px] md:shadow-[5px_5px_0px_0px_#4f4e4e]">
                 <img
                   className="hidden aspect-square h-5 w-5 flex-shrink-0 rounded-full object-cover md:flex md:h-10 md:w-10"
-                  src={user.avatar.url}
+                  src={user?.avatar?.url}
                   alt="avatar"
                 />
                 <Input

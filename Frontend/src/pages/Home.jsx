@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { CreateChat, Loader, Login, Button, Input } from "../comonents";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
   const [chats, setChats] = useState([]);
+  const [chatExists, setChatExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
   console.log(chats);
 
@@ -17,6 +19,7 @@ function Home() {
         .then((chats) => {
           if (chats) {
             setChats(chats.data.data);
+            setChatExists(true);
           }
         })
         .catch((error) => {
@@ -37,7 +40,15 @@ function Home() {
   }
 
   if (authStatus && chats.length === 0) {
-    return <div>{isLoading ? <Loader /> : <CreateChat />}</div>;
+    return (
+      <div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          navigate("/create-chat", { state: { chatExists } })
+        )}
+      </div>
+    );
   }
 
   return (

@@ -37,16 +37,10 @@ function Login() {
 
       const { password } = data;
 
-      const user = await authService.login({ email, username, password });
+      const userData = await authService.login({ email, username, password });
 
-      if (user) {
-        // const { accessToken } = user.data.data;
-        // console.log(accessToken);
-        // axios.defaults.headers.common[
-        //   "Authorization"
-        // ] = `Bearer ${accessToken}`;
-
-        const userData = await authService.getCurrentUser();
+      if (userData) {
+        const currentUser = await authService.getCurrentUser();
 
         if (rememberMe) {
           if (isEmail) {
@@ -73,8 +67,8 @@ function Login() {
           localStorage.removeItem("userCredentials");
         }
 
-        if (userData) {
-          dispatch(login(userData.data.data));
+        if (currentUser) {
+          dispatch(login(currentUser.data.data));
         }
         navigate("/");
       }
