@@ -23,7 +23,7 @@ function ChatMessage() {
       const newMessage = await chatService.sendMessage({ chatId, content });
 
       if (newMessage) {
-        setChats((chats) => [...chats, newMessage.data.data]);
+        setChats((prevChats) => [...prevChats, newMessage.data.data]);
 
         reset({
           message: "",
