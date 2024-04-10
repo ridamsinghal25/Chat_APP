@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema(
           default: "",
         },
       },
+      required: true,
     },
     refreshToken: {
       type: String,
