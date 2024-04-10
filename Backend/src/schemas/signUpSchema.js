@@ -15,8 +15,11 @@ export const avatarValidation = z.object({
 });
 
 export const signUpSchemaValidation = z.object({
-  usernane: usernameValidation,
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, "Password must be atleast 8 characters"),
-  avatar: avatarValidation,
+  usernane: usernameValidation.required(),
+  email: z.string().email({ message: "Invalid email address" }).required(),
+  password: z
+    .string()
+    .min(8, "Password must be atleast 8 characters")
+    .required(),
+  avatar: avatarValidation.required(),
 });
