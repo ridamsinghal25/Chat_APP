@@ -19,7 +19,7 @@ function PersonalChat() {
   const startChattingWithUser = async (data) => {
     setError("");
     try {
-      const personalChat = await chatService.createOneOnOneChat(data);
+      const personalChat = await chatService.createOne_On_OneChat(data);
 
       const chatId = personalChat?.data?.data?._id;
       const anotherUser = personalChat?.data?.data?.participants[1];
