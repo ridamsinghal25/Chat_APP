@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../index";
+import { Button, Select } from "../comonents/index";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
