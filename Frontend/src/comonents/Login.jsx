@@ -23,16 +23,14 @@ function Login() {
   const loginUser = async (data) => {
     setError("");
     try {
-      const isEmail = /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi.test(
-        data.usernameOrEmail
-      );
+      const isEmail = /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi.test(data.identifier);
 
       let email, username;
 
       if (isEmail) {
-        email = data.usernameOrEmail;
+        email = data.identifier;
       } else {
-        username = data.usernameOrEmail;
+        username = data.identifier;
       }
 
       const { password } = data;
@@ -43,26 +41,16 @@ function Login() {
         const currentUser = await authService.getCurrentUser();
 
         if (rememberMe) {
-          if (isEmail) {
-            const encryptEmail = encryptData(email);
-            const encryptPassword = encryptData(password);
+          const encryptIdentifier = encryptData(data.identifier);
+          const encryptPassword = encryptData(password);
 
-            localStorage.setItem(
-              "userCredentials",
-              JSON.stringify({ email: encryptEmail, password: encryptPassword })
-            );
-          } else {
-            const encryptUsername = encryptData(username);
-            const encryptPassword = encryptData(password);
-
-            localStorage.setItem(
-              "userCredentials",
-              JSON.stringify({
-                username: encryptUsername,
-                password: encryptPassword,
-              })
-            );
-          }
+          localStorage.setItem(
+            "userCredentials",
+            JSON.stringify({
+              identifier: encryptIdentifier,
+              password: encryptPassword,
+            })
+          );
         } else {
           localStorage.removeItem("userCredentials");
         }
@@ -87,25 +75,14 @@ function Login() {
       localStorage.getItem("userCredentials")
     );
 
-    if (savedCredentials?.username) {
-      const { username: encryptUsername, password: encryptPassword } =
+    if (savedCredentials) {
+      const { identifier: encryptIdentifier, password: encryptPassword } =
         savedCredentials;
 
-      const decryptUsername = decryptData(encryptUsername);
+      const decryptIdentifier = decryptData(encryptIdentifier);
       const decryptPassword = decryptData(encryptPassword);
 
-      setValue("usernameOrEmail", decryptUsername);
-      setValue("password", decryptPassword);
-
-      setRememberMe(true);
-    } else if (savedCredentials?.email) {
-      const { email: encryptEmail, password: encryptPassword } =
-        savedCredentials;
-
-      const decryptEmail = decryptData(encryptEmail);
-      const decryptPassword = decryptData(encryptPassword);
-
-      setValue("usernameOrEmail", decryptEmail);
+      setValue("identifier", decryptIdentifier);
       setValue("password", decryptPassword);
 
       setRememberMe(true);
@@ -154,13 +131,13 @@ function Login() {
                   placeholder="Enter a username or email..."
                   autoComplete="false"
                   className="w-full border-[1px] border-white bg-black p-4 text-white placeholder:text-gray-500"
-                  {...register("usernameOrEmail", {
+                  {...register("identifier", {
                     required: "Username or email is required",
                   })}
                 />
-                {errors.usernameOrEmail?.message && (
+                {errors.identifier?.message && (
                   <p className="text-red-500 italic">
-                    &#9888; {errors.username?.message}
+                    &#9888; {errors.identifier?.message}
                   </p>
                 )}
               </div>
