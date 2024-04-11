@@ -10,7 +10,6 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
-  console.log(chats);
 
   useEffect(() => {
     if (authStatus) {
@@ -42,10 +41,10 @@ function Home() {
   if (authStatus && chats.length === 0) {
     return (
       <div>
-        {isLoading ? (
-          <Loader />
-        ) : (
+        {!isLoading ? (
           navigate("/create-chat", { state: { chatExists } })
+        ) : (
+          <Loader />
         )}
       </div>
     );
@@ -53,9 +52,7 @@ function Home() {
 
   return (
     <div>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {!isLoading ? (
         <div>
           <div className="bg-[#121212]">
             <div className="mt-[77px] flex h-[calc(100vh-77px)] w-full items-center justify-center overflow-hidden p-0 md:mt-[83px] md:h-[calc(100vh-83px)]">
@@ -135,6 +132,8 @@ function Home() {
             </div>
           </div>
         </div>
+      ) : (
+        <Loader />
       )}
     </div>
   );
