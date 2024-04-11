@@ -10,7 +10,7 @@ import { persistStore } from "redux-persist";
 import SignupPage from "./pages/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import Home from "./pages/Home.jsx";
-import { ChatMessage, CreateChat, PersonalChat } from "./comonents/index.js";
+import { ChatMessage, CreateChat, PersonalChat } from "./pages";
 
 const router = createBrowserRouter([
   {

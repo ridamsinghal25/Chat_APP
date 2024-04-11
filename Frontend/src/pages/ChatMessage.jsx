@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button } from "../index";
+import { Input, Button } from "../comonents/index";
 import { useForm } from "react-hook-form";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import chatService from "../../freeapi/chat";
+import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
 
 function ChatMessage() {

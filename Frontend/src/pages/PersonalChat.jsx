@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Select } from "../index";
 import { useNavigate } from "react-router-dom";
-import chatService from "../../freeapi/chat";
+import chatService from "../freeapi/chat";
 import { useForm } from "react-hook-form";
 
 function PersonalChat() {
