@@ -23,7 +23,6 @@ function App() {
       })
       .finally(() => setLoading(false));
   }, []);
-  console.log("hello");
 
   return !loading ? (
     <>
