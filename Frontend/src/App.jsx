@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Header } from "./comonents";
+import { Header } from "./components";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./slices/authSlice";
-import { Loader } from "./comonents/index";
+import { Loader } from "./components/index";
 import authService from "./freeapi/auth";
 
 function App() {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Loader, Login, Button, Input } from "../comonents";
+import { Loader, Login, Button, Input } from "../components";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";

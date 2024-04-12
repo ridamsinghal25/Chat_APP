@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../comonents/index";
+import { Button } from "../components/index";
 import { Link } from "react-router-dom";
 
 function CreateChat() {
