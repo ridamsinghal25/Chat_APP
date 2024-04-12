@@ -21,11 +21,10 @@ function PersonalChat() {
     try {
       const personalChat = await chatService.createOne_On_OneChat(data);
 
-      const chatId = personalChat?.data?.data?._id;
-      const anotherUser = personalChat?.data?.data?.participants[1];
+      const chatId = personalChat.data?.data?._id;
 
       if (personalChat) {
-        navigate(`/chat-message/${chatId}`, { state: { anotherUser } });
+        navigate(`/chat-message/${chatId}`);
       }
     } catch (error) {
       setError(error.message);
