@@ -39,15 +39,7 @@ function Home() {
   }
 
   if (authStatus && chats.length === 0) {
-    return (
-      <div>
-        {!isLoading ? (
-          navigate("/create-chat", { state: { chatExists } })
-        ) : (
-          <Loader />
-        )}
-      </div>
-    );
+    return <div>{!isLoading ? navigate("/create-chat") : <Loader />}</div>;
   }
 
   return (
@@ -92,10 +84,7 @@ function Home() {
                       key={chat._id}
                       className="w-full cursor-pointer p-4 hover:bg-[#232323] md:p-6"
                     >
-                      <Link
-                        to={`/chat-message/${chat._id}`}
-                        state={{ anotherUser: chat.participants[1] }}
-                      >
+                      <Link to={`/chat-message/${chat._id}`}>
                         <div className="flex w-full items-start justify-start gap-3 md:gap-4">
                           <img
                             className="flex aspect-square h-10 w-10 flex-shrink-0 rounded-full object-cover"
