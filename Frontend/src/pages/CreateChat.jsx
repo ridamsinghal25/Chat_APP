@@ -1,42 +1,12 @@
 import React from "react";
-import { Button, Select } from "../comonents/index";
+import { Button } from "../comonents/index";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 function CreateChat() {
-  const { state } = useLocation();
-  const chatExists = state?.chatExists;
-
   return (
     <div>
       <div className="min-h-screen bg-[#121212]">
         <div className="flex h-full min-h-screen w-full flex-col items-center justify-center px-4 text-center">
-          {chatExists ? (
-            <div className="flex flex-col items-center justify-center gap-4 text-white">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                className="h-20 w-20 text-white md:h-28 md:w-28"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z"
-                ></path>
-              </svg>
-              <h1 className="text-4xl font-extrabold md:text-6xl">
-                No chats found?
-              </h1>
-              <p className="max-w-sm text-xs text-gray-200 md:text-sm">
-                Try to initiate chat with your saved contacts by clicking the
-                Button below
-              </p>
-            </div>
-          ) : null}
           <Link to="/create-personal-chat">
             <Button className="mt-14 inline-flex w-max items-center bg-[#ae7aff] p-3 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]">
               <svg
