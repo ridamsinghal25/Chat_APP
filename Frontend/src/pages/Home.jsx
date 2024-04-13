@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Loader, Login, Button, Input } from "../components";
+import { Loader, Button, Input } from "../components";
 import chatService from "../freeapi/chat";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
@@ -26,10 +25,11 @@ function Home() {
       });
   }, []);
 
-  if (chats.length === 0) {
-    console.log("hello");
-    return <div>{!isLoading ? navigate("/create-chat") : <Loader />}</div>;
-  }
+  useEffect(() => {
+    if (chats.length === 0) {
+      return <div>{!isLoading ? navigate("/create-chat") : <Loader />}</div>;
+    }
+  }, [chats, isLoading]);
 
   return (
     <div>
