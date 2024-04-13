@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
   const [chats, setChats] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,9 +26,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (chats.length === 0) {
-      return <div>{!isLoading ? navigate("/create-chat") : <Loader />}</div>;
-    }
+    !isLoading && chats.length === 0 && navigate("/create-chat");
   }, [chats, isLoading]);
 
   return (
