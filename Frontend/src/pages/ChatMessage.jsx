@@ -6,12 +6,9 @@ import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
 
 function ChatMessage() {
-  const [currentUser, setCurrentUser] = useState("");
   const [chats, setChats] = useState([]);
-
   const { chatId } = useParams();
   const navigate = useNavigate();
-
   const user = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, reset } = useForm();
 
@@ -48,10 +45,7 @@ function ChatMessage() {
   useEffect(() => {
     chatService.getMessage({ chatId }).then((chats) => {
       setChats(chats.data.data);
-      console.log(chats.data.data);
     });
-
-    setCurrentUser(user._id);
   }, []);
 
   return (
@@ -151,7 +145,7 @@ function ChatMessage() {
                 <div
                   key={chat._id}
                   className={`flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0  ${
-                    chat.sender._id === currentUser
+                    chat.sender._id === user?._id
                       ? "mr-0"
                       : "ml-auto flex-row-reverse"
                   }`}
@@ -159,7 +153,7 @@ function ChatMessage() {
                   <img
                     className="flex aspect-square h-7 w-7 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
                     src={
-                      chat.sender._id === currentUser
+                      chat.sender._id === user?._id
                         ? user.avatar.url
                         : chat.sender.avatar.url
                     }
@@ -167,13 +161,13 @@ function ChatMessage() {
                   />
                   <div
                     className={`flex w-full flex-col gap-1 md:gap-2 ${
-                      chat.sender._id === currentUser
+                      chat.sender._id === user?._id
                         ? ""
                         : "items-end justify-end"
                     }`}
                   >
                     <p className="text-[10px] md:text-xs">
-                      {chat.sender._id === currentUser
+                      {chat.sender._id === user?._id
                         ? "You"
                         : chat.sender.username}
                       <span className="ml-2 text-gray-400">
