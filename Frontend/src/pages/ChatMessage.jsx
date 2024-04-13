@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button } from "../comonents/index";
+import { Input, Button } from "../components/index";
 import { useForm } from "react-hook-form";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
 
@@ -10,9 +10,7 @@ function ChatMessage() {
   const [chats, setChats] = useState([]);
 
   const { chatId } = useParams();
-  const { state } = useLocation();
   const navigate = useNavigate();
-  const anotherUser = state?.anotherUser;
 
   const user = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, reset } = useForm();
@@ -50,6 +48,7 @@ function ChatMessage() {
   useEffect(() => {
     chatService.getMessage({ chatId }).then((chats) => {
       setChats(chats.data.data);
+      console.log(chats.data.data);
     });
 
     setCurrentUser(user._id);
@@ -83,10 +82,12 @@ function ChatMessage() {
               </Button>
               <img
                 className="flex aspect-square h-10 w-10 flex-shrink-0 rounded-full object-cover"
-                src={anotherUser.avatar.url}
+                // src={anotherUser.avatar.url}
+                src="#"
                 alt="avatar"
               />
-              <p className="font-semibold text-white">{anotherUser.username}</p>
+              {/* <p className="font-semibold text-white">{anotherUser.username}</p> */}
+              <p className="font-semibold text-white">Another User</p>
             </div>
             <div className="flex items-center justify-end gap-4">
               <Button className="hidden h-10 w-10 flex-shrink-0 items-center justify-center border-[1px] border-white p-1 md:inline-flex">
@@ -151,8 +152,8 @@ function ChatMessage() {
                   key={chat._id}
                   className={`flex min-w-[150px] max-w-[80%] items-start justify-start gap-2 text-white md:max-w-[70%] mr-0  ${
                     chat.sender._id === currentUser
-                      ? "ml-auto flex-row-reverse"
-                      : "mr-0"
+                      ? "mr-0"
+                      : "ml-auto flex-row-reverse"
                   }`}
                 >
                   <img
@@ -160,21 +161,21 @@ function ChatMessage() {
                     src={
                       chat.sender._id === currentUser
                         ? user.avatar.url
-                        : anotherUser.avatar.url
+                        : chat.sender.avatar.url
                     }
                     alt="avatar"
                   />
                   <div
                     className={`flex w-full flex-col gap-1 md:gap-2 ${
                       chat.sender._id === currentUser
-                        ? "items-end justify-end"
-                        : ""
+                        ? ""
+                        : "items-end justify-end"
                     }`}
                   >
                     <p className="text-[10px] md:text-xs">
                       {chat.sender._id === currentUser
                         ? "You"
-                        : anotherUser.username}
+                        : chat.sender.username}
                       <span className="ml-2 text-gray-400">
                         {new Date(chat.createdAt).toLocaleTimeString([], {
                           hour: "numeric",
