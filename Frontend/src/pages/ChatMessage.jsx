@@ -56,7 +56,7 @@ function ChatMessage() {
             <div className="flex w-full items-center justify-start gap-3">
               <Button
                 className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center border-[1px] border-white p-1  md:h-10 md:w-10"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
