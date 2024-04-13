@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
   const [chats, setChats] = useState([]);
-  const [chatExists, setChatExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
@@ -18,7 +17,6 @@ function Home() {
         .then((chats) => {
           if (chats) {
             setChats(chats.data.data);
-            setChatExists(true);
           }
         })
         .catch((error) => {
