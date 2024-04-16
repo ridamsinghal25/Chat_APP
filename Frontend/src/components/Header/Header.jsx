@@ -28,13 +28,15 @@ function Header() {
               4
             </span>
           </span>
-          <div className="h-11 w-11 rounded-full border-2 border-white">
-            <img
-              src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt="avatar"
-              className="h-10 w-10 rounded-full object-cover"
-            />
-          </div>
+          <Link to="/profile">
+            <div className="h-11 w-11 rounded-full border-2 border-white">
+              <img
+                src="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-bench-city-man-people.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                alt="avatar"
+                className="h-10 w-10 rounded-full object-cover"
+              />
+            </div>
+          </Link>
           <Link to="/create-chat">
             <Button className="w-max items-center justify-center border-[1px] border-white p-3 text-center font-bold text-white md:inline-flex">
               <svg
