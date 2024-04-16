@@ -11,6 +11,7 @@ import Home from "./pages/Home.jsx";
 import ChatMessage from "./pages/ChatMessage.jsx";
 import CreateChat from "./pages/CreateChat.jsx";
 import PersonalChat from "./pages/PersonalChat.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/chat-message/:chatId",
         element: <ChatMessage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
       },
     ],
   },
