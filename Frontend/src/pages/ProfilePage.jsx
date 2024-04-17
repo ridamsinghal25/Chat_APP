@@ -1,11 +1,35 @@
 import React, { useState } from "react";
 import { Button, Input } from "../components";
 import { useSelector } from "react-redux";
+import authService from "../freeapi/auth";
+import { useDispatch } from "react-redux";
+import { logout } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
-  const user = useSelector((state) => state.auth.userData);
   const [isProfileEditable, setIsProfileEditable] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.userData);
   console.log(user);
+
+  const handleButtonClick = async () => {
+    try {
+      if (isProfileEditable) {
+        // logic to handle profile page editing
+      } else {
+        const logoutUserMessage = await authService.logout();
+
+        if (logoutUserMessage) {
+          dispatch(logout());
+        }
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error while handling profile page login: ", error);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen bg-[#121212]">
@@ -152,7 +176,10 @@ function ProfilePage() {
                   value={isProfileEditable ? "" : user?.username}
                 />
               </div>
-              <Button className="w-full bg-[#ae7aff] p-3 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]">
+              <Button
+                className="w-full bg-[#ae7aff] p-3 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
+                onClick={handleButtonClick}
+              >
                 {isProfileEditable ? "Edit Profile" : "Logout"}
               </Button>
             </div>
