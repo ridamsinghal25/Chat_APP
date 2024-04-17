@@ -12,6 +12,7 @@ import ChatMessage from "./pages/ChatMessage.jsx";
 import CreateChat from "./pages/CreateChat.jsx";
 import PersonalChat from "./pages/PersonalChat.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import { AuthLayout } from "./components/index.js";
 
 const router = createBrowserRouter([
   {
@@ -24,27 +25,51 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignupPage />,
+        element: (
+          <AuthLayout authentication={false}>
+            <SignupPage />
+          </AuthLayout>
+        ),
       },
       {
         path: "/login",
-        element: <LoginPage />,
+        element: (
+          <AuthLayout authentication={false}>
+            <LoginPage />
+          </AuthLayout>
+        ),
       },
       {
         path: "/create-personal-chat",
-        element: <PersonalChat />,
+        element: (
+          <AuthLayout authentication>
+            <PersonalChat />
+          </AuthLayout>
+        ),
       },
       {
         path: "/create-chat",
-        element: <CreateChat />,
+        element: (
+          <AuthLayout authentication>
+            <CreateChat />
+          </AuthLayout>
+        ),
       },
       {
         path: "/chat-message/:chatId",
-        element: <ChatMessage />,
+        element: (
+          <AuthLayout authentication>
+            <ChatMessage />
+          </AuthLayout>
+        ),
       },
       {
         path: "/profile",
-        element: <ProfilePage />,
+        element: (
+          <AuthLayout authentication>
+            <ProfilePage />
+          </AuthLayout>
+        ),
       },
     ],
   },

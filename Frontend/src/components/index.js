@@ -5,5 +5,6 @@ import Login from "./Login";
 import Select from "./Select";
 import Loader from "./Loader";
 import Header from "./Header/Header";
+import AuthLayout from "./AuthLayout";
 
-export { Signup, Input, Button, Login, Select, Loader, Header };
+export { Signup, Input, Button, Login, Select, Loader, Header, AuthLayout };
