@@ -10,7 +10,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      new ApiError(404, "Invalid token");
+      throw new ApiError(404, "Invalid token");
     }
 
     const decodedToken = await jwt.verify(
@@ -23,12 +23,12 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     );
 
     if (!user) {
-      new ApiError(401, "Invalid Access token");
+      throw new ApiError(401, "Invalid Access token");
     }
 
     req.user = user;
     next();
   } catch (error) {
-    new ApiError(401, error?.message || "Invalid access token");
+    throw new ApiError(401, error?.message || "Invalid access token");
   }
 });
