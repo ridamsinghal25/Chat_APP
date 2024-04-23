@@ -16,8 +16,4 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", function (req, res) {
-  res.send("GET request to homepage");
-});
-
 export { app };
