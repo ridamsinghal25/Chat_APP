@@ -42,7 +42,6 @@ const registerUser = asyncHandler(async (req, res) => {
     avatar: {
       public_id: avatar.public_id,
       url: avatar.url,
-      localPath: avatarLocalPath,
     },
     username: username.toLowerCase(),
   });
