@@ -1,9 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input, Button } from "../components/index";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import chatService from "../freeapi/chat";
 import { useSelector } from "react-redux";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8080/", {
+  withCredentials: true,
+});
+
+const CONNECTED_EVENT = "connected";
+const DISCONNECT_EVENT = "disconnect";
+const JOIN_CHAT_EVENT = "joinChat";
+const NEW_CHAT_EVENT = "newChat";
+const TYPING_EVENT = "typing";
+const STOP_TYPING_EVENT = "stopTyping";
+const MESSAGE_RECEIVED_EVENT = "messageReceived";
+const LEAVE_CHAT_EVENT = "leaveChat";
+const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
 
 function ChatMessage() {
   const [chats, setChats] = useState([]);
@@ -29,6 +44,11 @@ function ChatMessage() {
     }
   };
 
+  // const onSubmit = (data) => {
+  //   console.log("user is typing");
+  //   socket.emit(TYPING_EVENT, chatIdRef.current);
+  // };
+
   const deleteChat = async () => {
     try {
       const removedChat = await chatService.deleteOne_On_OneChat({ chatId });
@@ -43,9 +63,32 @@ function ChatMessage() {
   };
 
   useEffect(() => {
+    socket.emit(JOIN_CHAT_EVENT, chatId);
+
     chatService.getMessage({ chatId }).then((chats) => {
       setChats(chats.data.data);
     });
+  }, []);
+
+  useEffect(() => {
+    socket.on(CONNECTED_EVENT, () => {
+      console.log("Socket connected.");
+    });
+
+    socket.on(TYPING_EVENT, (chatId) => {
+      console.log("User is typing in chat:", chatId);
+    });
+
+    socket.on(JOIN_CHAT_EVENT);
+    socket.on(MESSAGE_RECEIVED_EVENT, (message) => {
+      console.log("message: ", message);
+    });
+
+    return () => {
+      socket.off(CONNECTED_EVENT);
+      socket.off(TYPING_EVENT);
+      socket.off(JOIN_CHAT_EVENT);
+    };
   }, []);
 
   return (
