@@ -38,10 +38,6 @@ const userSchema = new mongoose.Schema(
           type: String,
           default: "default_avatar.png",
         },
-        localPath: {
-          type: String,
-          default: "",
-        },
       },
       required: true,
     },
