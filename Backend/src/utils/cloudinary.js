@@ -25,12 +25,12 @@ const uploadToCloudinary = async (localFilePath) => {
   }
 };
 
-const deleteFromCloudinary = async (publicId) => {
+const deleteFromCloudinary = async (publicId, resorceType) => {
   try {
     if (!publicId) throw new Error("publicId is required");
 
     const response = await cloudinary.uploader.destroy(publicId, {
-      resource_type: "auto",
+      resource_type: resorceType || "auto",
     });
 
     return response;
