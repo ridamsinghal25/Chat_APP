@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const chatSchema = new mongoose.Schema(
+const chatSchema = new Schema(
   {
     name: {
       type: String,
@@ -11,20 +11,21 @@ const chatSchema = new mongoose.Schema(
       default: false,
     },
     lastMessage: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
+      type: Schema.Types.ObjectId,
+      ref: "ChatMessage",
     },
     participants: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
-        required: true,
       },
     ],
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Chat = mongoose.model("Chat", chatSchema);

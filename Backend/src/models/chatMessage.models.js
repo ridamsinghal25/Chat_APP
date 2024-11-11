@@ -1,23 +1,29 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const chatMessageSchema = new mongoose.Schema(
+const chatMessageSchema = new Schema(
   {
-    content: {
-      type: String,
-      required: true,
-    },
     sender: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
+    content: {
+      type: String,
+    },
+    attachments: {
+      type: [
+        {
+          url: String,
+          localPath: String,
+        },
+      ],
+      default: [],
+    },
     chat: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Chat",
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export const Message = mongoose.model("Message", chatMessageSchema);
+export const ChatMessage = mongoose.model("ChatMessage", chatMessageSchema);
