@@ -27,14 +27,16 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-// initialize socket io
-initializeSocketIO(io);
-
 // routes import
 
 import userRouter from "./routes/user.routes.js";
+import chatRouter from "./routes/chat.routes.js";
 
 // route declaration
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/chats", chatRouter);
+
+// initialize socket io
+initializeSocketIO(io);
 
 export { httpServer };

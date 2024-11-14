@@ -2,10 +2,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.models.js";
-import {
-  deleteFromCloudinary,
-  uploadToCloudinary,
-} from "../utils/cloudinary.js";
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -47,26 +43,10 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User with email or username already exists");
   }
 
-  let avatarLocalPath = req.file?.path;
-
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required");
-  }
-
-  const avatar = await uploadToCloudinary(avatarLocalPath);
-
-  if (!avatar) {
-    throw new ApiError(400, "Error while uploading avatar file");
-  }
-
   const user = await User.create({
     fullName,
     email,
     password,
-    avatar: {
-      public_id: avatar.public_id,
-      url: avatar.url,
-    },
     username: username.toLowerCase(),
   });
 
@@ -219,43 +199,6 @@ const updateUserAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "user account updated successfully"));
 });
 
-const updateUserAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath = req.file.path;
-
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "avatar file is required");
-  }
-
-  const user = await User.findById(req.user._id);
-
-  if (!user) {
-    throw new ApiError(404, "user not found");
-  }
-
-  const public_id = user.avatar.public_id;
-
-  const newAvatar = await uploadToCloudinary(avatarLocalPath);
-
-  if (!newAvatar) {
-    throw new ApiError(500, "something went wrong while updating avatar");
-  }
-
-  user.avatar.url = newAvatar.url;
-  user.avatar.public_id = newAvatar.public_id;
-
-  await user.save({ validateBeforeSave: false });
-
-  const deleteOldAvatar = await deleteFromCloudinary(public_id, "image");
-
-  if (!deleteOldAvatar) {
-    throw new ApiError(500, "something went wrong while removing old avatar");
-  }
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, {}, "user avatar updated successfully"));
-});
-
 export {
   registerUser,
   loginUser,
@@ -263,5 +206,4 @@ export {
   changeUserPassword,
   getCurrentUserDetails,
   updateUserAccountDetails,
-  updateUserAvatar,
 };

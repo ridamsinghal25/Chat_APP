@@ -28,19 +28,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "password is required"],
       trim: true,
     },
-    avatar: {
-      type: {
-        public_id: {
-          type: String,
-          default: "",
-        },
-        url: {
-          type: String,
-          default: "default_avatar.png",
-        },
-      },
-      required: true,
-    },
     refreshToken: {
       type: String,
     },
