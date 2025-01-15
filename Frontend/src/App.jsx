@@ -2,7 +2,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-// import ChatPage from "./pages/chat";
+import ChatPage from "./pages/Chat";
 import { useAuth } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -27,14 +27,14 @@ const App = () => {
       ></Route>
 
       {/* Private chat route: Can only be accessed by authenticated users */}
-      {/* <Route
+      <Route
         path="/chat"
         element={
           <PrivateRoute>
             <ChatPage />
           </PrivateRoute>
         }
-      /> */}
+      />
 
       {/* Public login route: Accessible by everyone */}
       <Route
